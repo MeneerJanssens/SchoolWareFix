@@ -1,0 +1,27 @@
+/* Styles to widen the LAST S1 column on KaOZele website */
+/* Only target the specific marked column */
+
+/* Make the last S1 column cells wider and flexible */
+.s1-column-wide {
+  min-width: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  padding: 8px 12px !important;
+  line-height: 1.5 !important;
+  flex: 1 !important;
+}
+
+/* Remove any width constraints from marked cells */
+.s1-column-wide[width],
+.s1-column-wide[style*="width"] {
+  width: auto !important;
+}
+
+/* Adjust table layout */
+.s1-table-adjusted {
+  table-layout: auto !important;
+  width: 100% !important;
+}

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "SchoolWare Column Fix",
+  "version": "1.0",
+  "description": "Widens the S1 column on KaOZele website for better readability",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://kaozele-intranet.durme.be/*"],
+      "css": ["styles.css"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
