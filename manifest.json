@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "SchoolWare Column Fix",
+  "name": "SchoolWare Fix",
   "version": "1.0",
-  "description": "Widens the S1 column on KaOZele website for better readability",
+  "description": "Multiple fixes for SchoolWare intranet site.",
   "permissions": [
     "activeTab"
   ],
@@ -13,5 +13,10 @@
       "js": ["content.js"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
 }
