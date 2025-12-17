@@ -174,3 +174,26 @@ observer.observe(document.body, {
 });
 
 console.log('🔧 SchoolWare Column Fix fully initialized');
+
+// Check if the page was reloaded (by F5 or reload button)
+const navigation = performance.getEntriesByType('navigation')[0];
+if (navigation && navigation.type === 'reload') {
+  const currentUrl = window.location.href;
+  const homepage = 'https://kaozele-intranet.durme.be/';
+  
+  // Only redirect if we're not already on the homepage
+  if (currentUrl !== homepage && !currentUrl.startsWith(homepage + '#')) {
+    console.log('🔧 Page reload detected, redirecting to homepage');
+    window.location.replace(homepage);
+  }
+}
+
+// Redirect to homepage when F5 or Ctrl+R is pressed
+document.addEventListener('keydown', function(e) {
+  // Check for F5 or Ctrl+R (Cmd+R on Mac)
+  if (e.key === 'F5' || (e.key === 'r' && (e.ctrlKey || e.metaKey))) {
+    e.preventDefault();
+    console.log('🔧 Reload key pressed, redirecting to homepage');
+    window.location.href = 'https://kaozele-intranet.durme.be/';
+  }
+}, true);
