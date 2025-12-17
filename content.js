@@ -9,61 +9,11 @@ function injectCSS() {
   style.textContent = `
     /* Force S1 columns to be wider - INJECTED VERSION */
     th:contains('S1'), td:has-text('S1') {
-      min-width: 400px !important;
+      min-width: 200px !important;
       width: auto !important;
-      max-width: none !important;
+      max-width: 800px !important;
     }
-    
-    /* Target by position - S1 appears to be 4th column */
-    tbody tr td:nth-child(4),
-    thead tr th:nth-child(4),
-    tr > *:nth-child(4) {
-      min-width: 400px !important;
-      width: 400px !important;
-      max-width: 600px !important;
-      white-space: normal !important;
-      word-wrap: break-word !important;
-      overflow-wrap: break-word !important;
-      padding: 8px 12px !important;
-    }
-    
-    /* Also target 5th column (second S1) */
-    tbody tr td:nth-child(5),
-    thead tr th:nth-child(5),
-    tr > *:nth-child(5) {
-      min-width: 400px !important;
-      width: 400px !important;
-      max-width: 600px !important;
-      white-space: normal !important;
-      word-wrap: break-word !important;
-      overflow-wrap: break-word !important;
-      padding: 8px 12px !important;
-    }
-    
-    /* And 6th column (third S1) */
-    tbody tr td:nth-child(6),
-    thead tr th:nth-child(6),
-    tr > *:nth-child(6) {
-      min-width: 400px !important;
-      width: 400px !important;
-      max-width: 600px !important;
-      white-space: normal !important;
-      word-wrap: break-word !important;
-      overflow-wrap: break-word !important;
-      padding: 8px 12px !important;
-    }
-    
-    /* Marked columns */
-    .s1-column-wide {
-      min-width: 400px !important;
-      width: 400px !important;
-      max-width: 600px !important;
-      white-space: normal !important;
-      word-wrap: break-word !important;
-      overflow-wrap: break-word !important;
-      padding: 8px 12px !important;
-      background-color: rgba(255, 255, 0, 0.05) !important;
-    }
+  
   `;
   
   // Remove old style if exists
@@ -113,8 +63,8 @@ function adjustColumns() {
         
         // Also set properties directly to ensure it takes effect
         element.style.width = 'auto';
-        element.style.minWidth = 'auto';
-        element.style.maxWidth = 'none';
+        element.style.minWidth = '200px';
+        element.style.maxWidth = '800px';
         element.style.whiteSpace = 'normal';
         element.style.wordWrap = 'break-word';
         
@@ -130,6 +80,43 @@ function adjustColumns() {
   console.log('🔧 Total cells modified:', modifiedCount);
 }
 
+// Function to hide icon column on rapporten-puntenboekje page
+function hideIconColumn() {
+  // Check if we're on the rapporten-puntenboekje page
+  if (!window.location.href.includes('rapporten-puntenboekje')) {
+    return;
+  }
+  
+  console.log('🔧 Hiding icon column on rapporten-puntenboekje page...');
+  
+  // Find all tables
+  const tables = document.querySelectorAll('table');
+  
+  tables.forEach(table => {
+    const firstRow = table.querySelector('tr');
+    if (!firstRow) return;
+    
+    // Check each column header for fa-seedling
+    Array.from(firstRow.children).forEach((cell, columnIndex) => {
+      const hasSeedlingIcon = cell.querySelector('.fa-seedling');
+      
+      if (hasSeedlingIcon) {
+        console.log('🔧 Found column with fa-seedling at index:', columnIndex);
+        
+        // Hide all cells in this column
+        const rows = table.querySelectorAll('tr');
+        rows.forEach(row => {
+          const targetCell = row.children[columnIndex];
+          if (targetCell) {
+            targetCell.style.setProperty('display', 'none', 'important');
+            targetCell.style.setProperty('width', '0', 'important');
+          }
+        });
+      }
+    });
+  });
+}
+
 // Inject CSS immediately
 injectCSS();
 
@@ -137,16 +124,19 @@ injectCSS();
 setTimeout(() => {
   console.log('🔧 Running initial column adjustment...');
   adjustColumns();
+  hideIconColumn();
 }, 100);
 
 setTimeout(() => {
   console.log('🔧 Running delayed column adjustment...');
   adjustColumns();
+  hideIconColumn();
 }, 1000);
 
 setTimeout(() => {
   console.log('🔧 Running final column adjustment...');
   adjustColumns();
+  hideIconColumn();
 }, 3000);
 
 // Run when DOM is ready
@@ -154,9 +144,11 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     console.log('🔧 DOM loaded, adjusting columns...');
     adjustColumns();
+    hideIconColumn();
   });
 } else {
   adjustColumns();
+  hideIconColumn();
 }
 
 // Also observe for dynamic changes
@@ -165,6 +157,7 @@ const observer = new MutationObserver((mutations) => {
   clearTimeout(window.schoolwareFixTimeout);
   window.schoolwareFixTimeout = setTimeout(() => {
     adjustColumns();
+    hideIconColumn();
   }, 500);
 });
 
